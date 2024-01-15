@@ -7,6 +7,8 @@ const userRoute = require("./routes/userRoute");
 const contactRoute = require("./routes/contactRoute");
 const errorHandler = require("./middleWare/errorMiddleware");
 const cookieParser = require("cookie-parser");
+const leaveRoute = require("./routes/leaveRoute")
+const eventRoute = require("./routes/calendarRoute")
 
 
 const app = express();
@@ -18,7 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://pinvent-app.vercel.app"],
+    origin: ["http://localhost:5173", "https://pinvent-app.vercel.app"],
     credentials: true,
   })
 );
@@ -26,6 +28,9 @@ app.use(
 // Routes Middleware
 app.use("/api/users", userRoute);
 app.use("/api/contactus", contactRoute);
+app.use("/api/leaves", leaveRoute)
+app.use("/api/calendar", eventRoute)
+
 
 // Routes
 app.get("/", (req, res) => {
@@ -35,7 +40,7 @@ app.get("/", (req, res) => {
 // Error Middleware
 app.use(errorHandler);
 // Connect to DB and start server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {

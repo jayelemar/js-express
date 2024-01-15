@@ -3,6 +3,10 @@ const bcrypt = require("bcryptjs");
 
 const userSchema = mongoose.Schema(
   {
+    // staffId: {
+    //   type: String,
+    //   required: [true, "Please add a staffId"],
+    // },
     name: {
       type: String,
       required: [true, "Please add a name"],
@@ -21,13 +25,9 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "Please add a password"],
       minLength: [6, "Password must be up to 6 characters"],
-      //   maxLength: [23, "Password must not be more than 23 characters"],
     },
-    staffId: {
-      type: String,
-      default: "000",
-    },
-  },
+
+  }, 
   {
     timestamps: true,
   }
