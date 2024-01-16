@@ -62,6 +62,12 @@ const registerUser = asyncHandler(
         sameSite: "none",
         secure: true,
       });
+      res.status(201).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        token,
+      })
     } else {
       res.status(400);
       throw new Error("Invalid user data");
