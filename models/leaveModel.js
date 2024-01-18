@@ -1,12 +1,15 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const leaveSchema = new Schema(
-  {
+const leaveSchema = new Schema({
     user: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
+        type: Schema.Types.ObjectId,
         ref: 'User',
+        required: true,
+    },
+    name: {
+        type: String,
+        required: true,
     },
     leaveType: {
         type: String,
@@ -36,24 +39,26 @@ const leaveSchema = new Schema(
         type: Date,
         required: [ true," Please add a end date"]
     },
-    note: {
+    reason: {
         type: String,
         null: true,
         blank: true,
     },
+    contactAddress: {
+        type:String,
+    },
+    contactNumber: {
+        type:String,
+    },
     createdAt: {
         type: Date,
-
     },
     modifiedAt: {
         type: Date,
-
     }
-  },
-  {
+},{
     timestamps: true,
-  }
-);
+});
 
 
 const Leave = mongoose.model('Leave', leaveSchema);
