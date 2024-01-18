@@ -171,6 +171,7 @@ const loginStatus = asyncHandler(async (req, res) => {
   return res.json(false);
 });
 
+
 // Update User
 const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
@@ -256,8 +257,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
   }).save();
 
   // Construct Reset Url
-  const FRONTEND_PATH = process.env.FRONTEND_URL | "http://localhost:8000/"
-  const resetUrl = `${process.env.FRONTEND_PATH}/resetpassword/${resetToken}`;
+  const resetUrl = `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`;
 
   // Reset Email
   const message = `
