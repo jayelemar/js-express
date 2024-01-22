@@ -10,7 +10,7 @@ const sendEmail = require("../utils/sendEmail");
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 };
-const COOKIE_EXPIRATION_TIME = 1000 * 86400
+
 
 // Register User
 const registerUser = asyncHandler(
@@ -59,7 +59,7 @@ const registerUser = asyncHandler(
       res.cookie("token", token, {
         path: "/",
         httpOnly: true,
-        expires: new Date(Date.now() + COOKIE_EXPIRATION_TIME), // 1 day
+        expires: new Date(Date.now() + 1000 * 86400),// 1 day
         sameSite: "none",
         secure: true,
       });
@@ -97,29 +97,27 @@ const loginUser = asyncHandler(async (req, res) => {
 
   // User exists, check if password is correct
   const passwordIsCorrect = await bcrypt.compare(password, user.password);
-
-  //   Generate Token
-  const token = generateToken(user._id);
   
   if(passwordIsCorrect){
+
+      //   Generate Token
+  const token = generateToken(user._id);
+
    // Send HTTP-only cookie
   res.cookie("token", token, {
     path: "/",
     httpOnly: true,
-    expires: new Date(Date.now() + COOKIE_EXPIRATION_TIME), // 1 day
+    expires: new Date(Date.now() + 1000 * 86400), // 1 day
     sameSite: "none",
     secure: true,
   });
-}
-  if (user && passwordIsCorrect) {
-    const { _id, name, email, photo, phone, bio } = user;
+
+    const { _id, name, email } = user;
+    console.log('Generated Token:', token);
     res.status(200).json({
       _id,
       name,
       email,
-      photo,
-      phone,
-      bio,
       token,
     });
   } else {
@@ -145,12 +143,11 @@ const getUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user) {
-    const { _id, name, email, photo, phone, bio } = user;
+    const { _id, name, email } = user;
     res.status(200).json({
       _id,
       name,
       email,
-      staffId,
     });
   } else {
     res.status(400);
@@ -178,17 +175,15 @@ const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user) {
-    const { name, email, staffId } = user;
+    const { name, email } = user;
     user.email = email;
     user.name = req.body.name || name;
-    user.staffId = req.body.staffId || staffId;
 
     const updatedUser = await user.save();
     res.status(200).json({
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
-      staffId: updatedUser.staffId,
     });
   } else {
     res.status(404);

@@ -6,9 +6,9 @@ const { param } = require("../routes/userRoute");
 const createLeave = asyncHandler(async ( req, res) => {
     const data = req.body
     console.log('Received data:', data);
-    const { leaveType, startDate, endDate, note } = data;
+    const { name, leaveType, startDate, endDate, reason, contactAddress, contactNumber } = data;
 
-    if( !leaveType || !startDate || !endDate || !note ) {
+    if( !name || !leaveType || !startDate || !endDate || !reason || !contactAddress || !contactNumber) {
       res.status(400);
       throw new Error("Please fill in all fields");
     }
@@ -16,10 +16,13 @@ const createLeave = asyncHandler(async ( req, res) => {
     // Create Leave
     const leave = await Leave.create({
       user: req.user.id,
+      name,
       leaveType,
       startDate,
       endDate,
-      note,
+      reason,
+      contactAddress,
+      contactNumber
     })
     res.status(201).json(leave)
 });

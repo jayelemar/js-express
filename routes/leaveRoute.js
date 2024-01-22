@@ -3,11 +3,12 @@ const { createLeave, getLeaves, getSingleLeave, deleteLeave, updateLeave } = req
 const protect = require("../middleWare/authMiddleware");
 
 const router = express.Router();
+router.use(protect);
 
-router.post("/", protect, createLeave)
-router.get("/", protect, getLeaves)
-router.get("/:id", protect, getSingleLeave)
-router.delete("/:id", protect, deleteLeave)
-router.patch("/:id", protect, updateLeave)
+router.post("/", createLeave)
+router.get("/", getLeaves)
+router.get("/:id", getSingleLeave)
+router.delete("/:id", deleteLeave)
+router.patch("/:id", updateLeave)
 
 module.exports = router
