@@ -18,9 +18,9 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(
+app.use('*',
   cors({
-    origin: ["http://localhost:5173", "https://pinvent-app.vercel.app"],
+    origin: ["http://localhost:5173", "https://leave-management-app-client.vercel.app/"],
     credentials: true,
   })
 );
