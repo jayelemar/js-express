@@ -13,6 +13,7 @@ const sendEmail = async (subject, message, send_to, sent_from, reply_to) => {
       rejectUnauthorized: false,
     },
   });
+  console.log("Transporter created successfully");
 
   // Option for sending email
   const options = {
@@ -23,6 +24,7 @@ const sendEmail = async (subject, message, send_to, sent_from, reply_to) => {
     html: message,
   };
 
+  console.log("About to send email...");
   // send email
   transporter.sendMail(options, function (err, info) {
     if (err) {
