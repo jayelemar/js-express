@@ -13,7 +13,12 @@ const sendEmail = async (subject, message, send_to, sent_from, reply_to) => {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
+    debug: true,
   });
+
+  console.log("User:", process.env.EMAIL_USER );
+  console.log("Password:", process.env.EMAIL_PASS);
+
   console.log("Transporter created successfully");
 
   // Option for sending email
