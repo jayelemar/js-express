@@ -13,68 +13,76 @@ const generateToken = (id) => {
 
 
 // Register User
-const registerUser = asyncHandler(
-  async (req, res) => {
-    console.log("Request Body:", req.body);
-    const { name, email, password } = req.body;
+// const registerUser = asyncHandler(
+//   async (req, res) => {
+//     console.log("Request Body:", req.body);
+//     const { name, email, password } = req.body;
 
-    // Validation
-    if (!name || !email || !password ) {
-      res.status(400);
-      throw new Error("Please fill in all required fields");
-    }
-    if (password.length < 6) {
-      res.status(400);
-      throw new Error("Password must be up to 6 characters");
-    }
+//     // Validation
+//     if (!name || !email || !password ) {
+//       res.status(400);
+//       throw new Error("Please fill in all required fields");
+//     }
+//     if (password.length < 6) {
+//       res.status(400);
+//       throw new Error("Password must be up to 6 characters");
+//     }
 
-    // Check if user email already exists
-    const userExists = await User.findOne({ email });
+//     // Check if user email already exists
+//     const userExists = await User.findOne({ email });
 
-    if (userExists) {
-      res.status(400);
-      throw new Error("Email has already been registered");
-    }
+//     if (userExists) {
+//       res.status(400);
+//       throw new Error("Email has already been registered");
+//     }
 
-    let user; // Declare user variable outside the try block
+//     let user; // Declare user variable outside the try block
 
-    // Create new user
-    try {
-      user = await User.create({
-        name,
-        email,
-        password,
-      });
-    } catch (error) {
-      console.error("Registration Error:", error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
+//     // Create new user
+//     try {
+//       user = await User.create({
+//         name,
+//         email,
+//         password,
+//       });
+//     } catch (error) {
+//       console.error("Registration Error:", error);
+//       res.status(500).json({ error: "Internal Server Error" });
+//     }
 
-    // Check if user is defined before generating token
-    if (user) {
-      // Generate Token
-      const token = generateToken(user._id);
+//     // Check if user is defined before generating token
+//     if (user) {
+//       // Generate Token
+//       const token = generateToken(user._id);
 
-      // Send HTTP-only cookie
-      res.cookie("token", token, {
-        path: "/",
-        httpOnly: true,
-        expires: new Date(Date.now() + 1000 * 86400),// 1 day
-        sameSite: "none",
-        secure: true,
-      });
-      res.status(201).json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        token,
-      })
-    } else {
-      res.status(400);
-      throw new Error("Invalid user data");
-    }
+//       // Send HTTP-only cookie
+//       res.cookie("token", token, {
+//         path: "/",
+//         httpOnly: true,
+//         expires: new Date(Date.now() + 1000 * 86400),// 1 day
+//         sameSite: "none",
+//         secure: true,
+//       });
+//       res.status(201).json({
+//         _id: user._id,
+//         name: user.name,
+//         email: user.email,
+        
+//         token,
+//       })
+//     } else {
+//       res.status(400);
+//       throw new Error("Invalid user data");
+//     }
+//   }
+// );
+const registerUser = (req, res) => {
+  if (!req.body.email) {
+      res.status(400)
+      throw new Error ("Please add an email")
   }
-);
+  res.send("Register User")
+};
 
 
 // Login User
