@@ -22,12 +22,6 @@ const userSchema = mongoose.Schema(
       required: [true, "Please add a password"],
       minLength: [6, "Password must be up to 6 characters"],
     },
-    role: {
-      type: String,
-      enum: ['requester', 'approver'],
-      default: 'requester'
-    }
-
   }, 
   {
     timestamps: true,
